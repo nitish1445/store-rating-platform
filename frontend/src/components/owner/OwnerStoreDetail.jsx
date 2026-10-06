@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { FaArrowLeft, FaStore, FaStar, FaTrash } from "react-icons/fa6";
 import api from "../../config/Api";
+import toast from "react-hot-toast";
 
 const OwnerStoreDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
   const [store, setStore] = useState(null);
-
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -29,11 +29,8 @@ const OwnerStoreDetail = () => {
         setError("");
 
         const response = await api.get(`/owner/store/${id}`);
-
         const data = response.data.store;
-
         setStore(data);
-
         setForm({
           name: data.name || "",
           email: data.email || "",
@@ -41,7 +38,6 @@ const OwnerStoreDetail = () => {
         });
       } catch (error) {
         console.error("Error fetching store:", error);
-
         setError(error.response?.data?.message || "Unable to load store.");
       } finally {
         setLoading(false);
@@ -53,7 +49,6 @@ const OwnerStoreDetail = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-
     setForm((previous) => ({
       ...previous,
       [name]: value,
@@ -82,11 +77,9 @@ const OwnerStoreDetail = () => {
         address: response.data.store.address || "",
       });
 
-      setSuccess(response.data.message || "Store updated successfully.");
+      toast.success(response?.data?.message || "Store updated successfully.");
     } catch (error) {
-      console.error("Error updating store:", error);
-
-      setError(error.response?.data?.message || "Unable to update store.");
+      toast.error(error.response?.data?.message || "Unable to update store.");
     } finally {
       setSaving(false);
     }
@@ -103,13 +96,11 @@ const OwnerStoreDetail = () => {
       setDeleting(true);
       setError("");
 
-      await api.delete(`/owner/store/${id}`);
-
+      const response = await api.delete(`/owner/store/${id}`);
+      toast.success(response?.data?.message || "Store deleted successfully.");
       navigate("/owner/store");
     } catch (error) {
-      console.error("Error deleting store:", error);
-
-      setError(error.response?.data?.message || "Unable to delete store.");
+      toast.error(error.response?.data?.message || "Unable to delete store.");
     } finally {
       setDeleting(false);
     }
@@ -261,7 +252,7 @@ const OwnerStoreDetail = () => {
             type="button"
             onClick={handleDelete}
             disabled={deleting || saving}
-            className="inline-flex h-10 items-center justify-center gap-2 border border-(--danger) px-5 text-sm font-semibold text-(--danger) disabled:cursor-not-allowed disabled:opacity-50"
+            className="cursor-pointer inline-flex h-10 items-center justify-center gap-2 border border-(--danger) hover:bg-(--danger) px-5 text-sm font-semibold text-(--danger) hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
           >
             <FaTrash />
 
@@ -271,7 +262,7 @@ const OwnerStoreDetail = () => {
           <button
             type="submit"
             disabled={saving || deleting}
-            className="inline-flex h-10 items-center justify-center bg-(--primary) px-6 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
+            className="cursor-pointer inline-flex h-10 items-center justify-center bg-(--primary) hover:bg-(--secondary) px-6 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
           >
             {saving ? "Saving..." : "Save changes"}
           </button>

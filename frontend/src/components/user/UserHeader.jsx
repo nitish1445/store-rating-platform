@@ -53,11 +53,11 @@ const UserHeader = ({ onMenuClick }) => {
         <div className="flex items-center gap-2 sm:gap-4">
           <div className="hidden text-right sm:block">
             <p className="text-sm font-semibold text-(--foreground)">
-              {user?.name || "User"}
+              {user?.name?.split(" ").slice(0, 2).join(" ") || "User"}
             </p>
 
             <p className="text-[10px] font-semibold uppercase tracking-wide text-(--muted)">
-              Normal User
+              User
             </p>
           </div>
 

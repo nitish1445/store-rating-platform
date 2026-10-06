@@ -1,52 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaArrowRight, FaStar, FaStore } from "react-icons/fa6";
-
 const Home = () => {
   return (
     <main className="min-h-screen bg-(--background) text-(--foreground)">
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-(--border) bg-(--surface)">
-        <div className="mx-auto flex h-18 w-full max-w-7xl items-center justify-between px-4 sm:px-8 lg:px-10">
-          {/* Brand */}
-          <Link
-            to="/"
-            className="inline-flex min-w-0 items-center gap-2.5 sm:gap-3"
-          >
-            <div className="flex size-9 shrink-0 items-center justify-center bg-(--secondary) text-base font-bold text-white sm:size-10 sm:text-lg">
-              R
-            </div>
-
-            <div className="min-w-0">
-              <p className="truncate text-base font-bold leading-none tracking-tight text-(--foreground) sm:text-lg">
-                Roxiler
-              </p>
-
-              <p className="mt-1 text-[9px] font-semibold uppercase tracking-[0.14em] text-(--muted) ">
-                Store Rating
-              </p>
-            </div>
-          </Link>
-
-          {/* Auth Buttons */}
-          <div className="flex shrink-0 items-center gap-1 sm:gap-2.5">
-            <Link
-              to="/login"
-              className="inline-flex h-9 items-center justify-center px-3 text-xs font-semibold text-(--foreground) sm:h-10 sm:px-4 sm:text-sm"
-            >
-              Login
-            </Link>
-
-            <Link
-              to="/user-signup"
-              className="inline-flex h-9 items-center justify-center bg-(--primary) px-3.5 text-xs font-semibold text-white sm:h-10 sm:px-5 sm:text-sm"
-            >
-              Sign up
-            </Link>
-          </div>
-        </div>
-      </header>
-
       {/* Hero */}
       <section className="flex min-h-[calc(100vh-136px)] items-center px-5 py-24 sm:px-8 sm:py-28 lg:px-10">
         <div className="mx-auto w-full max-w-7xl ">

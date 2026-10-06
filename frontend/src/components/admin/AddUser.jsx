@@ -9,9 +9,10 @@ import {
   FaLocationDot,
   FaLock,
   FaUserShield,
-  FaCircleCheck,
 } from "react-icons/fa6";
+import { BsCheck2Circle } from "react-icons/bs";
 import api from "../../config/Api";
+import toast from "react-hot-toast";
 
 const AddUser = () => {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ const AddUser = () => {
       setLoading(true);
       setError("");
 
-      await api.post("/admin/users", {
+      const response = await api.post("/admin/users", {
         name: form.name.trim(),
         email: form.email.trim(),
         address: form.address.trim(),
@@ -56,8 +57,9 @@ const AddUser = () => {
       });
 
       navigate("/admin/users");
+      toast.success(response?.data?.message || "User added succesfully");
     } catch (error) {
-      setError(error.response?.data?.message || "Unable to create user.");
+      toast.error(error.response?.data?.message || "Unable to create user.");
     } finally {
       setLoading(false);
     }
@@ -243,7 +245,7 @@ const AddUser = () => {
               />
 
               <p className="mt-1.5 text-[11px] leading-5 text-(--muted)">
-                8–16 characters with at least one uppercase letter and one
+                8-16 characters with at least one uppercase letter and one
                 special character.
               </p>
             </div>
@@ -309,31 +311,31 @@ const AddUser = () => {
 
             <div className="mt-4 space-y-3">
               <div className="flex items-center gap-3">
-                <FaCircleCheck className="shrink-0 text-xs text-(--success)" />
+                <BsCheck2Circle className="shrink-0 text-xs text-(--success)" />
 
                 <span className="text-xs text-(--muted)">Full name</span>
               </div>
 
               <div className="flex items-center gap-3">
-                <FaCircleCheck className="shrink-0 text-xs text-(--success)" />
+                <BsCheck2Circle className="shrink-0 text-xs text-(--success)" />
 
                 <span className="text-xs text-(--muted)">Email address</span>
               </div>
 
               <div className="flex items-center gap-3">
-                <FaCircleCheck className="shrink-0 text-xs text-(--success)" />
+                <BsCheck2Circle className="shrink-0 text-xs text-(--success)" />
 
                 <span className="text-xs text-(--muted)">Account role</span>
               </div>
 
               <div className="flex items-center gap-3">
-                <FaCircleCheck className="shrink-0 text-xs text-(--success)" />
+                <BsCheck2Circle className="shrink-0 text-xs text-(--success)" />
 
                 <span className="text-xs text-(--muted)">Address</span>
               </div>
 
               <div className="flex items-center gap-3">
-                <FaCircleCheck className="shrink-0 text-xs text-(--success)" />
+                <BsCheck2Circle className="shrink-0 text-xs text-(--success)" />
 
                 <span className="text-xs text-(--muted)">Secure password</span>
               </div>

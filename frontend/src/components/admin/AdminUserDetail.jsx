@@ -11,13 +11,13 @@ import {
   FaCircleCheck,
 } from "react-icons/fa6";
 import api from "../../config/Api";
+import toast from "react-hot-toast";
 
 const AdminUserDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
   const [user, setUser] = useState(null);
-
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -28,7 +28,6 @@ const AdminUserDetail = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
-
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -40,7 +39,6 @@ const AdminUserDetail = () => {
 
         const response = await api.get(`/admin/users/${id}`);
         const data = response.data.user;
-
         setUser(data);
 
         setForm({
@@ -91,9 +89,9 @@ const AdminUserDetail = () => {
         ...response.data.user,
       }));
 
-      setSuccess(response.data.message || "User updated successfully.");
+      toast.success(response?.data?.message || "User updated successfully.");
     } catch (error) {
-      setError(error.response?.data?.message || "Unable to update user.");
+      toast.error(error.response?.data?.message || "Unable to update user.");
     } finally {
       setSaving(false);
     }
@@ -107,10 +105,11 @@ const AdminUserDetail = () => {
     try {
       setDeleting(true);
       setError("");
-      await api.delete(`/admin/users/${id}`);
+      const response = await api.delete(`/admin/users/${id}`);
+      toast.success(response?.data?.message || "User deleted succesfully");
       navigate("/admin/users");
     } catch (error) {
-      setError(error.response?.data?.message || "Unable to delete user.");
+      toast.error(error.response?.data?.message || "Unable to delete user.");
     } finally {
       setDeleting(false);
     }

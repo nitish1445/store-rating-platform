@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaLock } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import api from "../../config/Api";
+import toast from "react-hot-toast";
 
 const UpdatePasswordModal = () => {
   const navigate = useNavigate();
@@ -28,24 +29,25 @@ const UpdatePasswordModal = () => {
 
     if (!/^(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{8,16}$/.test(password)) {
       setPasswordError(
-        "Password must be 8–16 characters with at least one uppercase letter and one special character.",
+        "Password must be 8-16 characters with at least one uppercase letter and one special character.",
       );
       return;
     }
 
     try {
       setPasswordLoading(true);
-
-      await api.put("/owner/password", {
+      const response = await api.put("/owner/password", {
         password,
       });
 
       setPassword("");
       setConfirmPassword("");
-
+      toast.success(
+        response?.data?.message || "Password updated successfully.",
+      );
       navigate("/owner/profile");
     } catch (error) {
-      setPasswordError(
+      toast.error(
         error.response?.data?.message || "Unable to update password.",
       );
     } finally {
@@ -152,7 +154,7 @@ const UpdatePasswordModal = () => {
           {/* Password Requirement */}
           <div className="border border-(--border) bg-(--background) px-4 py-3">
             <p className="text-xs leading-5 text-(--muted)">
-              Password must be 8–16 characters and contain at least one
+              Password must be 8-16 characters and contain at least one
               uppercase letter and one special character.
             </p>
           </div>

@@ -7,15 +7,15 @@ import {
   FaEnvelope,
   FaLocationDot,
   FaUser,
-  FaCircleCheck,
 } from "react-icons/fa6";
 import api from "../../config/Api";
+import toast from "react-hot-toast";
+import { BsCheck2Circle } from "react-icons/bs";
 
 const AddStore = () => {
   const navigate = useNavigate();
 
   const [owners, setOwners] = useState([]);
-
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -31,7 +31,6 @@ const AddStore = () => {
     const fetchOwners = async () => {
       try {
         const response = await api.get("/admin/owners");
-
         setOwners(response.data.owners || []);
       } catch (error) {
         setError(
@@ -65,16 +64,17 @@ const AddStore = () => {
       setLoading(true);
       setError("");
 
-      await api.post("/admin/stores", {
+      const response = await api.post("/admin/stores", {
         name: form.name.trim(),
         email: form.email.trim(),
         address: form.address.trim(),
         ownerId: form.ownerId,
       });
 
+      toast.success(response?.data?.message || "Store updated succesfully");
       navigate("/admin/stores");
     } catch (error) {
-      setError(error.response?.data?.message || "Unable to create store.");
+      toast.error(error.response?.data?.message || "Unable to create store.");
     } finally {
       setLoading(false);
     }
@@ -239,7 +239,7 @@ const AddStore = () => {
 
                   {owners.map((owner) => (
                     <option key={owner.id} value={owner.id}>
-                      {owner.name} — {owner.email}
+                      {owner.name} -- {owner.email}
                     </option>
                   ))}
                 </select>
@@ -312,25 +312,25 @@ const AddStore = () => {
 
             <div className="mt-4 space-y-3">
               <div className="flex items-center gap-3">
-                <FaCircleCheck className="shrink-0 text-xs text-(--success)" />
+                <BsCheck2Circle className="shrink-0 text-xs text-(--success)" />
 
                 <span className="text-xs text-(--muted)">Store name</span>
               </div>
 
               <div className="flex items-center gap-3">
-                <FaCircleCheck className="shrink-0 text-xs text-(--success)" />
+                <BsCheck2Circle className="shrink-0 text-xs text-(--success)" />
 
                 <span className="text-xs text-(--muted)">Store address</span>
               </div>
 
               <div className="flex items-center gap-3">
-                <FaCircleCheck className="shrink-0 text-xs text-(--success)" />
+                <BsCheck2Circle className="shrink-0 text-xs text-(--success)" />
 
                 <span className="text-xs text-(--muted)">Store owner</span>
               </div>
 
               <div className="flex items-center gap-3">
-                <FaCircleCheck className="shrink-0 text-xs text-(--success)" />
+                <BsCheck2Circle className="shrink-0 text-xs text-(--success)" />
 
                 <span className="text-xs text-(--muted)">
                   Email is optional

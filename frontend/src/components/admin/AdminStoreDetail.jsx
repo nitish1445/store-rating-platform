@@ -12,6 +12,7 @@ import {
   FaCircleCheck,
 } from "react-icons/fa6";
 import api from "../../config/Api";
+import toast from "react-hot-toast";
 
 const AdminStoreDetail = () => {
   const { id } = useParams();
@@ -30,7 +31,6 @@ const AdminStoreDetail = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
-
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -95,9 +95,9 @@ const AdminStoreDetail = () => {
         ...response.data.store,
       }));
 
-      setSuccess(response.data.message || "Store updated successfully.");
+      toast.success(response.data.message || "Store updated successfully.");
     } catch (error) {
-      setError(error.response?.data?.message || "Unable to update store.");
+      toast.error(error.response?.data?.message || "Unable to update store.");
     } finally {
       setSaving(false);
     }
@@ -112,8 +112,8 @@ const AdminStoreDetail = () => {
       setDeleting(true);
       setError("");
 
-      await api.delete(`/admin/stores/${id}`);
-
+      const response = await api.delete(`/admin/stores/${id}`);
+      toast.success(response?.data?.success || "Store deleted successfully");
       navigate("/admin/stores");
     } catch (error) {
       setError(error.response?.data?.message || "Unable to delete store.");
@@ -170,10 +170,6 @@ const AdminStoreDetail = () => {
       {/* Page heading */}
       <div>
         <div className="flex items-start gap-3">
-          <div className="flex size-11 shrink-0 items-center justify-center bg-(--secondary) text-white">
-            <FaStore className="text-base" />
-          </div>
-
           <div className="min-w-0">
             <h1 className="text-xl font-bold tracking-tight text-(--foreground) sm:text-2xl">
               Store details
@@ -313,7 +309,7 @@ const AdminStoreDetail = () => {
                 >
                   {owners.map((owner) => (
                     <option key={owner.id} value={owner.id}>
-                      {owner.name} — {owner.email}
+                      {owner.name} -- {owner.email}
                     </option>
                   ))}
                 </select>

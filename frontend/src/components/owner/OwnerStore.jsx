@@ -5,6 +5,7 @@ import {
   FaStar,
   FaLocationDot,
   FaArrowRight,
+  FaEnvelope,
 } from "react-icons/fa6";
 import api from "../../config/Api";
 
@@ -105,9 +106,10 @@ const OwnerStore = () => {
             </p>
 
             {store.email && (
-              <p className="mt-2 text-sm text-(--muted)">
-                {store.email}
-              </p>
+              <p className="mt-2 flex items-start gap-2 text-sm text-(--muted)">
+              <FaEnvelope className="mt-0.5 shrink-0 text-(--primary)" />
+              {store.email}
+            </p>
             )}
           </div>
 

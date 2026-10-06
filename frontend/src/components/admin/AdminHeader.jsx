@@ -55,7 +55,7 @@ const AdminHeader = ({ onMenuClick }) => {
         <div className="flex items-center gap-2 sm:gap-4">
           <div className="hidden text-right sm:block">
             <p className="text-sm font-semibold text-(--foreground)">
-              {user?.name || "Administrator"}
+              {user?.name?.split(" ").slice(0, 2).join(" ") || "Administrator"}
             </p>
 
             <p className="text-[10px] font-semibold uppercase tracking-wide text-(--muted)">
